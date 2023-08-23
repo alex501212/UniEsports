@@ -1,0 +1,38 @@
+<mat-toolbar color="primary">
+  <span>UniEsports</span>
+  <span style="visibility: hidden">---</span>
+  <button mat-button routerLink="/institutions">Home</button>
+  <span style="visibility: hidden">---</span>
+  <button
+    *ngIf="authService.isAuthenticated$ | async"
+    mat-button
+    routerLink="myProfile"
+  >
+    Profile
+  </button>
+  <span style="visibility: hidden" *ngIf="isAdmin">---</span>
+  <button
+    mat-button
+    routerLink="/requests"
+    *ngIf="isAdmin"
+    matBadgeColor="accent"
+  >
+    Requests
+  </button>
+  <span style="visibility: hidden">---</span>
+  <ng-container *ngIf="authService.isAuthenticated$ | async; else loggedOut">
+    <button mat-raised-button (click)="logOut()">Logout</button>
+  </ng-container>
+  <ng-template #loggedOut>
+    <button
+      mat-raised-button
+      (click)="
+        authService.loginWithRedirect({
+          appState: { target: '/login' }
+        })
+      "
+    >
+      Login
+    </button>
+  </ng-template>
+</mat-toolbar>

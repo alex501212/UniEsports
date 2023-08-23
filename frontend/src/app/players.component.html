@@ -1,0 +1,200 @@
+<br />
+<div style="width: 50rem; margin: auto">
+  <div *ngFor="let player of player_list | async">
+    <div style="width: 50rem; margin: auto">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>{{ player.role }}</mat-card-title>
+          <mat-card-subtitle>{{ player.username }}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content> </mat-card-content>
+        <mat-card-actions>
+          <button
+            mat-icon-button
+            *ngIf="isAdmin"
+            (click)="openDialog(player.username, player.role, player._id)"
+          >
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button
+            mat-icon-button
+            (click)="deletePlayer(player._id)"
+            *ngIf="isAdmin"
+          >
+            <mat-icon>delete</mat-icon>
+          </button>
+          <button
+            mat-icon-button
+            [routerLink]="[
+              '/institutions',
+              institutionID,
+              'teams',
+              teamID,
+              'players',
+              player._id
+            ]"
+          >
+            <mat-icon>account_circle</mat-icon>
+          </button>
+        </mat-card-actions>
+      </mat-card>
+      <br />
+    </div>
+  </div>
+  <div *ngIf="isComments">
+    <span>Sort by </span>
+    <mat-chip (click)="getCommentsNewest()"> Newest </mat-chip>&nbsp;
+    <mat-chip (click)="getCommentsOldest()"> Oldest </mat-chip>&nbsp;
+    <mat-chip (click)="getCommentsMostVotes()"> Most Votes </mat-chip>&nbsp;
+    <mat-chip (click)="getCommentsLeastVotes()"> Least Votes </mat-chip>
+  </div>
+  <br />
+  <div *ngFor="let comment of comments | async">
+    <div style="width: 30rem; margin: auto">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>{{ comment.user }} </mat-card-title>
+          <mat-card-subtitle>{{ comment.timestamp }}</mat-card-subtitle>
+        </mat-card-header>
+
+        <mat-card-content>
+          <p>{{ comment.comment }}</p>
+        </mat-card-content>
+
+        <mat-card-actions>
+          <button
+            mat-button
+            (click)="onUpvote(comment._id)"
+            *ngIf="authService.isAuthenticated$ | async"
+          >
+            <mat-icon>arrow_upward</mat-icon>
+          </button>
+          <button mat-button disabled *ngIf="!currentUser">
+            <mat-icon>arrow_upward</mat-icon>
+          </button>
+          <span>{{ comment.votes }}</span>
+          <button
+            mat-button
+            (click)="onDownvote(comment._id)"
+            *ngIf="authService.isAuthenticated$ | async"
+          >
+            <mat-icon>arrow_downward</mat-icon>
+          </button>
+          <button mat-button disabled *ngIf="!currentUser">
+            <mat-icon>arrow_downward</mat-icon>
+          </button>
+          <button
+            mat-icon-button
+            *ngIf="currentUser == comment.user"
+            [routerLink]="[
+              '/institutions',
+              institutionID,
+              'teams',
+              teamID,
+              'comments',
+              comment._id
+            ]"
+          >
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button
+            [routerLink]="[
+              '/institutions',
+              institutionID,
+              'teams',
+              teamID,
+              'profile',
+              comment.user
+            ]"
+            mat-icon-button
+            color="accent"
+            *ngIf="currentUser != comment.user"
+          >
+            <mat-icon>account_circle</mat-icon>
+          </button>
+        </mat-card-actions>
+      </mat-card>
+      <br />
+    </div>
+  </div>
+</div>
+<div style="width: 30rem; margin: auto">
+  <ng-container *ngIf="authService.isAuthenticated$ | async; else loggedOut">
+    <h2>Request to Join Team</h2>
+    <form [formGroup]="requestForm" (ngSubmit)="requestToJoinTeam()">
+      <mat-form-field appearance="fill" style="width: 100%">
+        <mat-label>Role</mat-label>
+        <input
+          id="role"
+          name="role"
+          formControlName="role"
+          matInput
+          [ngClass]="{ error: requestIsInvalid('role') }"
+        />
+        <button
+          matSuffix
+          mat-icon-button
+          type="submit"
+          *ngIf="requestIsIncomplete()"
+          disabled
+        >
+          <mat-icon>send</mat-icon>
+        </button>
+        <button
+          matSuffix
+          mat-icon-button
+          type="submit"
+          *ngIf="!requestIsIncomplete()"
+        >
+          <mat-icon>send</mat-icon>
+        </button>
+      </mat-form-field>
+    </form>
+    <h2>Add Comment</h2>
+    <form [formGroup]="commentForm" (ngSubmit)="onSubmit()">
+      <p>
+        <mat-form-field style="width: 100%">
+          <mat-label for="comment">Comment</mat-label>
+          <textarea
+            matInput
+            id="comment"
+            rows="3"
+            name="comment"
+            formControlName="comment"
+            [ngClass]="{ error: isInvalid('comment') }"
+          ></textarea>
+        </mat-form-field>
+      </p>
+      <button
+        mat-raised-button
+        color="primary"
+        *ngIf="isIncomplete()"
+        type="submit"
+        disabled
+      >
+        Submit
+      </button>
+      <button
+        mat-raised-button
+        color="primary"
+        *ngIf="!isIncomplete()"
+        type="submit"
+      >
+        Submit
+      </button>
+    </form>
+    <br />
+    <button (click)="openEditTeamDialog()" mat-fab extended color="primary" *ngIf="isAdmin">
+      <mat-icon>edit</mat-icon>
+      Edit Team</button
+    >&nbsp;
+    <button (click)="openDeleteTeamDialog()" mat-fab extended color="primary" *ngIf="isAdmin">
+      <mat-icon>delete</mat-icon>
+      Delete Team
+    </button>
+  </ng-container>
+  <ng-template #loggedOut>
+    <h2>Please login to comment</h2>
+  </ng-template>
+</div>
+<br />

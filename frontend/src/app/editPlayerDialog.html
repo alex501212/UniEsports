@@ -1,0 +1,29 @@
+<h1 mat-dialog-title>Edit Player</h1>
+<div mat-dialog-content>
+  <p>
+    <mat-form-field style="width: 550px">
+      <mat-label>Role</mat-label>
+      <input
+        id="institution_name"
+        matInput
+        value="{{role}}"
+        (change)="setRole($event)"
+      />
+    </mat-form-field>
+  </p>
+  <p>
+    <mat-form-field style="width: 550px">
+      <mat-label>Username</mat-label>
+      <input
+        id="address"
+        matInput
+        value="{{username}}"
+        (change)="setUsername($event)"
+      />
+    </mat-form-field>
+  </p>
+</div>
+<div mat-dialog-actions>
+  <button mat-button mat-dialog-close>Discard</button>
+  <button mat-button cdkFocusInitial (click)="editPlayer()">Edit</button>
+</div>

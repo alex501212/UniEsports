@@ -1,0 +1,47 @@
+<div class="div-style">
+  <h1>Welcome to UniEsports</h1>
+  <form [formGroup]="searchForm" (ngSubmit)="search()">
+    <mat-form-field class="form-field-style">
+      <mat-label>Search</mat-label>
+      <input matInput id="term" name="term" formControlName="term" />
+      <button matSuffix mat-icon-button type="submit">
+        <mat-icon>search</mat-icon>
+      </button>
+    </mat-form-field>
+  </form>
+  <div>
+    <span>Sort by </span>
+    <mat-chip (click)="searchJoinable()">Joinable Team/s </mat-chip>&nbsp;
+    <mat-chip (click)="fitlerAsc()">Asc</mat-chip>&nbsp;
+    <mat-chip (click)="fitlerDesc()">Desc</mat-chip>&nbsp;
+    <mat-chip (click)="filterAll()">All</mat-chip>
+    <mat-chip
+      class="to-right"
+      mat-fab
+      extended
+      color="accent"
+      (click)="openDialog()"
+      *ngIf="isAdmin"
+    >
+      Add New Institution
+    </mat-chip>
+  </div>
+  <br />
+  <div *ngFor="let institution of institution_list | async">
+    <div class="clickable" [routerLink]="['/institutions', institution._id]">
+      <mat-card>
+        <mat-card-content>{{
+          institution.institution_name
+        }}</mat-card-content> </mat-card
+      ><br />
+    </div>
+  </div>
+</div>
+<mat-paginator
+  [length]="institution_count"
+  [pageSize]="10"
+  [pageIndex]="page - 1"
+  (page)="handlePageEvent($event)"
+  *ngIf="!searched"
+>
+</mat-paginator>

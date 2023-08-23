@@ -1,0 +1,50 @@
+<div style="width: 50rem; margin: auto">
+  <h1>{{ user }}'s Profile</h1>
+  <p>
+    {{ profile_data[0]?.university }} | Graduates
+    {{ profile_data[0]?.grad_year }}
+  </p>
+  <mat-list>
+    <mat-list-item
+      >Fullname: {{ profile_data[0]?.forename }}
+      {{ profile_data[0]?.surname }}</mat-list-item
+    >
+    <mat-divider></mat-divider>
+    <mat-list-item
+      >Lol Account Name: {{ profile_data[0]?.lol_account_name }}</mat-list-item
+    >
+    <mat-divider></mat-divider>
+    <mat-list-item
+      >Follow Count: {{ profile_data[0]?.follow_count }}</mat-list-item
+    >
+    <mat-divider></mat-divider>
+    <mat-list-item>Followers: {{ profile_data[0]?.followers }}</mat-list-item>
+    <mat-divider></mat-divider>
+    <mat-list-item>Following: {{ profile_data[0]?.following }}</mat-list-item>
+  </mat-list>
+  <mat-spinner *ngIf="loading"></mat-spinner>
+  <div *ngIf="!followClicked">
+    <span *ngIf="!profile_data[0]?.followers.includes(currentUser)">
+      <button
+        mat-raised-button
+        color="primary"
+        *ngIf="authService.isAuthenticated$ | async"
+        (click)="followUser()"
+      >
+        Follow
+      </button>
+    </span>
+  </div>
+  <div *ngIf="!unfollowClicked">
+    <span *ngIf="profile_data[0]?.followers.includes(currentUser)">
+      <button
+        mat-raised-button
+        color="primary"
+        *ngIf="authService.isAuthenticated$ | async"
+        (click)="unfollowUser()"
+      >
+        Unfollow
+      </button>
+    </span>
+  </div>
+</div>

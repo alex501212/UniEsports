@@ -1,0 +1,26 @@
+<h1 mat-dialog-title>Edit Team</h1>
+<div mat-dialog-content>
+  <p>
+    <mat-form-field style="width: 550px">
+      <mat-label>Team Name</mat-label>
+      <input id="name" matInput value="{{teamName}}" (change)="setTeamName($event)"/>
+    </mat-form-field>
+  </p>
+  <p>
+    <mat-form-field style="width: 550px">
+      <mat-label>Select an option</mat-label>
+      <mat-select [(value)]="teamGame">
+        <mat-option value="League of Legends">League of Legends</mat-option>
+        <mat-option value="Overwatch">Overwatch</mat-option>
+        <mat-option value="Valorant">Valorant</mat-option>
+        <mat-option value="Counter-Strike: Global Offensive"
+          >Counter-Strike: Global Offensive</mat-option
+        >
+      </mat-select>
+    </mat-form-field>
+  </p>
+</div>
+<div mat-dialog-actions>
+  <button mat-button mat-dialog-close>Discard</button>
+  <button mat-button cdkFocusInitial (click)="editTeam()">Edit</button>
+</div>

@@ -1,0 +1,56 @@
+<div style="margin-top: 70px">
+  <div *ngFor="let data of player_data | async">
+    <div style="width: 50rem; margin: auto">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title-group>
+            <mat-card-title *ngIf="data.username">{{
+              data.username
+            }}</mat-card-title>
+            <button
+              mat-icon-button
+              color="accent"
+              *ngIf="data.username && currentUser != data.username"
+              [routerLink]="[
+                '/institutions',
+                institutionID,
+                'teams',
+                teamID,
+                'profile',
+                data.username
+              ]"
+            >
+              <mat-icon>account_circle</mat-icon>
+            </button>
+            <mat-card-title *ngIf="data.lol_account_name">{{
+              data.lol_account_name
+            }}</mat-card-title>
+
+            <mat-card-title *ngIf="data.queueType === 'RANKED_SOLO_5x5'"
+              >Solo Rank Statistics</mat-card-title
+            >
+            <mat-card-title *ngIf="data.queueType === 'RANKED_FLEX_SR'"
+              >Flex Rank Statistics</mat-card-title
+            >
+
+            <mat-card-subtitle *ngIf="data.role">{{
+              data.role
+            }}</mat-card-subtitle
+            ><img
+              *ngIf="data.tier"
+              src="/assets/ranked-emblems/{{ data.tier }}.png"
+            /> </mat-card-title-group></mat-card-header
+        ><mat-card-content>
+          <p *ngIf="data.wins">{{ data.wins }} Wins</p>
+          <p *ngIf="data.losses">{{ data.losses }} Losses</p>
+          <p *ngIf="data.wins && data.losses">
+            Win Rate {{ (data.losses / data.wins) * 100 | number : "1.0-0" }}%
+          </p>
+          <span *ngIf="data.tier">{{ data.tier }} </span>
+          <span *ngIf="data.rank">{{ data.rank }} </span>
+          <span *ngIf="data.leaguePoints">{{ data.leaguePoints }} LP </span>
+        </mat-card-content></mat-card
+      ><br />
+    </div>
+  </div>
+</div>

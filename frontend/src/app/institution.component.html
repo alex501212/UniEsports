@@ -1,0 +1,57 @@
+<br />
+<div style="width: 50rem; margin: auto">
+  <div *ngFor="let institution of institution_list | async">
+    <div style="width: 50rem; margin: auto">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>{{ institution.institution_name }}</mat-card-title>
+          <mat-card-subtitle
+            >Address: {{ institution.address }}</mat-card-subtitle
+          >
+        </mat-card-header>
+        <mat-card-content
+          >Tel: {{ institution.telephone_num }} | Website:
+          <a [href]="'http://' + institution.institution_url">{{
+            institution.institution_url
+          }}</a>
+          | Student Union Website:
+          <a [href]="institution.su_url">
+            {{ institution.su_url }}</a
+          ></mat-card-content
+        >
+        <mat-card-actions *ngIf="isAdmin">
+          <button mat-icon-button (click)="openEditDialog()">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button (click)="openDeleteDialog()">
+            <mat-icon>delete</mat-icon>
+          </button>
+          <button mat-icon-button (click)="openAddDialog()">
+            <mat-icon>add</mat-icon>
+          </button>
+        </mat-card-actions>
+      </mat-card>
+      <br />
+    </div>
+    <div
+      style="width: 30rem; margin: auto; cursor: pointer"
+      *ngFor="let team of teams | async"
+      [routerLink]="[
+        '/institutions',
+        institution._id,
+        'teams',
+        team._id,
+        'players'
+      ]"
+    >
+      <br />
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>{{ team.name }}</mat-card-title>
+          <mat-card-subtitle>{{ team.game }}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content></mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>

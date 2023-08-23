@@ -1,0 +1,26 @@
+<div style="width: 50rem; margin: auto">
+  <h1>Requests</h1>
+  <h2 *ngIf="!isRequests" >There are currently no requests to join teams</h2>
+  <div *ngFor="let request of request_list | async">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title
+          >Request to join {{ request.institution_name }}</mat-card-title
+        >
+        <mat-card-subtitle
+          >as {{ request.role }} for {{ request.team }}</mat-card-subtitle
+        >
+      </mat-card-header>
+      <mat-card-content> Request from {{ request.username }} </mat-card-content>
+      <mat-card-actions>
+        <button mat-icon-button (click)="confirmRequest(request.institutionID, request.teamID, request._id, request.username, request.role)">
+          <mat-icon>person_add</mat-icon>
+        </button>
+        <button mat-icon-button (click)="deleteRequest(request.institutionID, request.teamID, request._id)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </mat-card-actions>
+    </mat-card>
+    <br>
+  </div>
+</div>

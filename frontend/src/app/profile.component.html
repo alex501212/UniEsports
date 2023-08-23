@@ -1,0 +1,214 @@
+<mat-spinner class="spinner" *ngIf="loading"></mat-spinner>
+<div class="container-style" *ngIf="profile_data[0]?.firstTime_login == false">
+  <ng-container *ngIf="authService.isAuthenticated$ | async; else loggedOut">
+    <h1>My Profile</h1>
+    <mat-list *ngIf="authService.user$ | async as user">
+      <mat-list-item>
+        First Name: {{ profile_data[0]?.forename
+        }}<mat-icon
+          id="forename"
+          title="First Name"
+          class="clickable"
+          (click)="openDialog($event)"
+          >edit</mat-icon
+        ></mat-list-item
+      >
+      <mat-divider></mat-divider>
+      <mat-list-item
+        >Last Name: {{ profile_data[0]?.surname
+        }}<mat-icon
+          class="clickable"
+          id="surname"
+          title="Last Name"
+          (click)="openDialog($event)"
+          >edit</mat-icon
+        ></mat-list-item
+      >
+      <mat-divider></mat-divider>
+      <mat-list-item>Email Address: {{ user.email }}</mat-list-item>
+      <mat-divider></mat-divider>
+      <mat-list-item
+        >Username: {{ profile_data[0]?.username
+        }}<mat-icon
+          class="clickable"
+          id="username"
+          title="Username"
+          (click)="openDialog($event)"
+          >edit</mat-icon
+        ></mat-list-item
+      >
+      <mat-divider></mat-divider>
+      <mat-list-item
+        >Follow Count: {{ profile_data[0]?.follow_count }}</mat-list-item
+      >
+      <mat-divider></mat-divider>
+      <mat-list-item
+        >University: {{ profile_data[0]?.university
+        }}<mat-icon
+          class="clickable"
+          id="university"
+          title="University"
+          (click)="openDialog($event)"
+          >edit</mat-icon
+        ></mat-list-item
+      >
+      <mat-divider></mat-divider>
+      <mat-list-item
+        >LoL Account Name: {{ profile_data[0]?.lol_account_name
+        }}<mat-icon
+          class="clickable"
+          id="lol_account_name"
+          title="Lol Account Name"
+          (click)="openDialog($event)"
+          >edit</mat-icon
+        >
+      </mat-list-item>
+      <mat-divider></mat-divider>
+      <mat-list-item
+        >Graduation Year: {{ profile_data[0]?.grad_year
+        }}<mat-icon
+          class="clickable"
+          id="grad_year"
+          title="Graduation Year"
+          (click)="openDialog($event)"
+          >edit</mat-icon
+        ></mat-list-item
+      >
+      <mat-divider></mat-divider>
+      <mat-list-item>Followers: {{ profile_data[0]?.followers }}</mat-list-item>
+      <mat-divider></mat-divider>
+      <mat-list-item>Following: {{ profile_data[0]?.following }}</mat-list-item>
+    </mat-list>
+    <button mat-raised-button color="warn" (click)="deleteAccount()">
+      Delete Account
+    </button>
+  </ng-container>
+  <ng-template #loggedOut>
+    <h2>Please login and create a profile</h2>
+  </ng-template>
+</div>
+<div class="container-style" *ngIf="firstTimeLogin">
+  <ng-container
+    *ngIf="authService.isAuthenticated$ | async; else loggedOut"
+    class="container-style"
+  >
+    <h1>Create Profile</h1>
+    <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+      <p>
+        <mat-form-field class="form-field-intial">
+          <mat-label for="username">Username</mat-label>
+          <input
+            matInput
+            type="text"
+            id="username"
+            name="username"
+            formControlName="username"
+            [ngClass]="{ error: isInvalid('username') }"
+          />
+        </mat-form-field>
+      </p>
+      <span>
+        <mat-form-field class="form-field">
+          <mat-label for="forename">Forename</mat-label>
+          <input
+            matInput
+            type="text"
+            id="forename"
+            name="forename"
+            formControlName="forename"
+            [ngClass]="{ error: isInvalid('forename') }"
+          />
+        </mat-form-field>
+        <span class="hidden">------</span>
+        <mat-form-field class="form-field">
+          <mat-label for="surname">Surname</mat-label>
+          <input
+            matInput
+            type="text"
+            id="surname"
+            name="surname"
+            formControlName="surname"
+            [ngClass]="{ error: isInvalid('surname') }"
+          />
+        </mat-form-field>
+      </span>
+      <span>
+        <mat-form-field class="form-field">
+          <mat-label for="university">University</mat-label>
+          <input
+            type="text"
+            matInput
+            id="university"
+            name="university"
+            formControlName="university"
+            [matAutocomplete]="auto"
+            [ngClass]="{ error: isInvalid('university') }"
+          />
+
+          <mat-autocomplete #auto="matAutocomplete">
+            <mat-option
+              *ngFor="let option of options"
+              [value]="option.institution_name"
+            >
+              {{ option.institution_name }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+
+        <span class="hidden">------</span>
+
+        <mat-form-field class="form-field">
+          <mat-label for="grad_year">Graduation Year</mat-label>
+          <input
+            matInput
+            type="text"
+            id="grad_year"
+            name="grad_year"
+            formControlName="grad_year"
+            [ngClass]="{ error: isInvalid('grad_year') }"
+          />
+        </mat-form-field>
+      </span>
+      <p>
+        <mat-form-field class="form-field-intial">
+          <mat-label for="lol_account_name"
+            >Link Your League of Legends Account</mat-label
+          >
+          <input
+            matInput
+            placeholder="Summoner Name"
+            type="text"
+            id="lol_account_name"
+            name="lol_account_name"
+            formControlName="lol_account_name"
+            [ngClass]="{ error: isInvalid('lol_account_name') }"
+          />
+        </mat-form-field>
+      </p>
+      <button
+        mat-raised-button
+        color="primary"
+        *ngIf="isIncomplete()"
+        type="submit"
+        disabled
+      >
+        Create
+      </button>
+      <button
+        mat-raised-button
+        color="primary"
+        *ngIf="!isIncomplete()"
+        type="submit"
+      >
+        Create
+      </button>
+    </form>
+    <br />
+    <button mat-raised-button color="warn" (click)="deleteAccount()">
+      Delete Account
+    </button>
+  </ng-container>
+  <ng-template #loggedOut>
+    <h2>Please login and create a profile</h2>
+  </ng-template>
+</div>

@@ -1,0 +1,62 @@
+<h1 mat-dialog-title>Edit Institution</h1>
+<div mat-dialog-content *ngFor="let institution of institution_list | async">
+  <p>
+    <mat-form-field style="width: 550px">
+      <mat-label>Institution Name</mat-label>
+      <input
+        id="institution_name"
+        matInput
+        value="{{institution.institution_name}}"
+        (change)="setInstitutionName($event)"
+      />
+    </mat-form-field>
+  </p>
+  <p>
+    <mat-form-field style="width: 550px">
+      <mat-label>Address</mat-label>
+      <input
+        id="address"
+        matInput
+        value="{{institution.address}}"
+        (change)="setAddress($event)"
+      />
+    </mat-form-field>
+  </p>
+  <p>
+    <mat-form-field style="width: 550px">
+      <mat-label>Contact Number</mat-label>
+      <input
+        id="telephone_num"
+        matInput
+        value="{{institution.telephone_num}}"
+        (change)="setTelephoneNumber($event)"
+      />
+    </mat-form-field>
+  </p>
+  <p>
+    <mat-form-field style="width: 550px">
+      <mat-label>Institution Website</mat-label>
+      <input
+        id="institution_url"
+        matInput
+        value="{{institution.institution_url}}"
+        (change)="setWebsite($event)"
+      />
+    </mat-form-field>
+  </p>
+  <p>
+    <mat-form-field style="width: 550px">
+      <mat-label>Students Union Website</mat-label>
+      <input
+        id="su_url"
+        matInput
+        value="{{institution.su_url}}"
+        (change)="setSuWebsite($event)"
+      />
+    </mat-form-field>
+  </p>
+</div>
+<div mat-dialog-actions>
+  <button mat-button mat-dialog-close>Discard</button>
+  <button mat-button cdkFocusInitial (click)="editInstitution()">Edit</button>
+</div>

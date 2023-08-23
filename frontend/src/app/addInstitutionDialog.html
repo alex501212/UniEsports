@@ -1,0 +1,38 @@
+<h1 mat-dialog-title>Add New Institution</h1>
+<div mat-dialog-content>
+  <p>
+    <mat-form-field style="width: 550px">
+      <mat-label>Institution Name</mat-label>
+      <input (change)="setInstitutionName($event)" matInput />
+    </mat-form-field>
+  </p>
+  <p>
+    <mat-form-field style="width: 550px">
+      <mat-label>Address</mat-label>
+      <input (change)="setAddress($event)" matInput />
+    </mat-form-field>
+  </p>
+  <p>
+    <mat-form-field style="width: 550px">
+      <mat-label>Contact Number</mat-label>
+      <input (change)="setTelephoneNumber($event)" matInput />
+    </mat-form-field>
+  </p>
+  <p>
+    <mat-form-field style="width: 550px">
+      <mat-label>Institution Website</mat-label>
+      <input (change)="setWebsite($event)" matInput />
+    </mat-form-field>
+  </p>
+  <p>
+    <mat-form-field style="width: 550px">
+      <mat-label>Students Union Website</mat-label>
+      <input (change)="setSuWebsite($event)" matInput />
+    </mat-form-field>
+  </p>
+</div>
+<div mat-dialog-actions>
+  <button mat-button mat-dialog-close>Discard</button>
+  <button mat-button cdkFocusInitial (click)="addInstitution()">Add</button>
+</div>
+

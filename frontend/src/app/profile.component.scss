@@ -1,0 +1,36 @@
+.spinner {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.container-style {
+    width: 50rem;
+    margin: auto;
+}
+
+.form-field-style {
+    width: 50rem;
+}
+
+.to-right {
+    float: right;
+}
+
+.clickable {
+    float: right;
+    cursor: pointer;
+}
+
+.form-field {
+    width: 40%;
+}
+
+.form-field-intial {
+    width: 83.2%;
+}
+
+.hidden {
+    visibility: hidden;
+}
